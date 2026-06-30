@@ -223,6 +223,10 @@ node_modules/
 out/
 .vercel
 
+# AWS SAM
+.aws-sam/
+backend/.aws-sam/
+
 # Frontend env
 frontend/.env
 frontend/.env.local

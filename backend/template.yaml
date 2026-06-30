@@ -1,0 +1,64 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: MathLens API on AWS Lambda
+
+Parameters:
+  GoogleApiKey:
+    Type: String
+    NoEcho: true
+    Description: Google AI Studio API key
+
+Globals:
+  Function:
+    Timeout: 120
+    MemorySize: 1024
+
+Resources:
+  MathLensApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      StageName: $default
+      CorsConfiguration:
+        AllowOrigins:
+          - "https://mathlens.npsolver.io"
+          - "http://localhost:3000"
+        AllowMethods:
+          - "*"
+        AllowHeaders:
+          - "*"
+
+  MathLensFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Image
+      Environment:
+        Variables:
+          GOOGLE_API_KEY: !Ref GoogleApiKey
+          GEMINI_MODEL: gemini-2.5-flash
+          CORS_ORIGINS: "https://mathlens.npsolver.io,http://localhost:3000"
+          MAX_UPLOAD_SIZE_MB: "10"
+      Events:
+        Root:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref MathLensApi
+            Path: /
+            Method: ANY
+        Proxy:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref MathLensApi
+            Path: /{proxy+}
+            Method: ANY
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: .
+      DockerTag: mathlens-api-latest
+
+Outputs:
+  ApiUrl:
+    Description: API Gateway endpoint URL
+    Value: !Sub "https://${MathLensApi}.execute-api.${AWS::Region}.amazonaws.com"
+  FunctionArn:
+    Description: Lambda function ARN
+    Value: !GetAtt MathLensFunction.Arn
