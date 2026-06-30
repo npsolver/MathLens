@@ -226,6 +226,7 @@ out/
 # AWS SAM
 .aws-sam/
 backend/.aws-sam/
+backend/samconfig.toml
 
 # Frontend env
 frontend/.env
