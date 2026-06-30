@@ -8,13 +8,6 @@ from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv(Path(__file__).resolve().parent.parent / ".env", override=False)
 
-from app.errors import format_api_error
-from app.services.latex_extractor import (
-    detect_content_type,
-    extract_latex_from_image,
-    normalize_image_bytes,
-)
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -52,6 +45,13 @@ async def health():
 
 @app.post("/api/convert")
 async def convert(file: UploadFile = File(...)):
+    from app.errors import format_api_error
+    from app.services.latex_extractor import (
+        detect_content_type,
+        extract_latex_from_image,
+        normalize_image_bytes,
+    )
+
     file_bytes = await file.read()
     if not file_bytes:
         raise HTTPException(status_code=400, detail="Uploaded file is empty.")

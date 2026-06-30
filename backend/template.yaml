@@ -11,7 +11,7 @@ Parameters:
 Globals:
   Function:
     Timeout: 120
-    MemorySize: 1024
+    MemorySize: 2048
     Architectures:
       - x86_64
 
