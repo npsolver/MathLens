@@ -78,7 +78,7 @@ cp samconfig.toml.example samconfig.toml
 # Edit samconfig.toml — set your AWS region and GoogleApiKey in parameter_overrides
 
 sam build
-sam deploy --guided
+sam deploy --guided --resolve-image-repos
 ```
 
 During `--guided` deploy, use these settings:
@@ -106,8 +106,24 @@ curl https://YOUR_API_URL/health
 
 ```bash
 cd backend
+sam build && sam deploy --resolve-image-repos
+```
+
+Or, if `resolve_image_repos = true` is set in `samconfig.toml`:
+
+```bash
+cd backend
 sam build && sam deploy
 ```
+
+If `sam build` fails with a Docker `content digest ... not found` error, clear the cache and rebuild:
+
+```bash
+rm -rf .aws-sam
+sam build --no-cached
+```
+
+On Apple Silicon Macs, Docker builds the `linux/amd64` Lambda image via emulation — the first build can take a few minutes.
 
 #### Custom domain (`api.mathlens.npsolver.io`)
 

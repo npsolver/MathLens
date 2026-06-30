@@ -12,6 +12,8 @@ Globals:
   Function:
     Timeout: 120
     MemorySize: 1024
+    Architectures:
+      - x86_64
 
 Resources:
   MathLensApi:

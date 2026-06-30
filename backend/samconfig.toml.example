@@ -11,6 +11,7 @@ parallel = true
 capabilities = "CAPABILITY_IAM"
 confirm_changeset = true
 resolve_s3 = true
+resolve_image_repos = true
 s3_prefix = "mathlens-api"
 region = "us-east-1"
 parameter_overrides = "GoogleApiKey=REPLACE_WITH_YOUR_KEY"
