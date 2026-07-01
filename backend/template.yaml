@@ -33,6 +33,9 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       PackageType: Image
+      ImageConfig:
+        Command:
+          - lambda_handler.handler
       Environment:
         Variables:
           GOOGLE_API_KEY: !Ref GoogleApiKey

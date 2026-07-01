@@ -125,6 +125,22 @@ sam build --no-cached
 
 On Apple Silicon Macs, Docker builds the `linux/amd64` Lambda image via emulation — the first build can take a few minutes.
 
+If CloudWatch shows `Runtime.InvalidEntrypoint` with init times under ~10 ms, the ECR image architecture does not match the Lambda function (`x86_64`). Rebuild without cache and redeploy:
+
+```bash
+cd backend
+rm -rf .aws-sam
+sam build --no-cached
+sam deploy --resolve-image-repos
+```
+
+Verify the pushed image is amd64:
+
+```bash
+docker inspect mathlensfunction:mathlens-api-latest --format '{{.Architecture}}'
+# expected: amd64
+```
+
 #### Custom domain (`api.mathlens.npsolver.io`)
 
 1. In **AWS Certificate Manager** (same region as API Gateway), request a certificate for `api.mathlens.npsolver.io`.
