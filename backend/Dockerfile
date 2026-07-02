@@ -1,5 +1,5 @@
 # Use the arch-specific tag so Apple Silicon builds produce a true x86_64 image.
-FROM public.ecr.aws/lambda/python:3.12-x86_64
+FROM public.ecr.aws/lambda/python:3.14-x86_64
 
 COPY requirements.txt ${LAMBDA_TASK_ROOT}/
 RUN pip3 install --no-cache-dir -r requirements.txt --target "${LAMBDA_TASK_ROOT}"

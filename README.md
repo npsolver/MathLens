@@ -22,7 +22,7 @@ MathLens/
 ### Prerequisites
 
 - Node.js 18+
-- Python 3.12+
+- Python 3.14+
 - A [Google AI Studio](https://aistudio.google.com/apikey) API key
 
 ### Backend
